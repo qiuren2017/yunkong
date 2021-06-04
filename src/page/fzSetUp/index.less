@@ -1,0 +1,44 @@
+.fzSetUp {
+  height: 100%;
+  width: 100%;
+  font-size: 0;
+
+  .el-table /deep/.disabledSelection .cell .el-checkbox__inner {
+    display: none;
+    position: relative;
+  }
+
+  .el-table /deep/.disabledSelection .cell::before {
+    content: '序号';
+    position: absolute;
+    left: 10px;
+  }
+
+  .area {  overflow: scroll;
+    font-size: 14px;
+    position: absolute;
+    left: 180px;
+    top: 80px;
+    bottom: 20px;
+    right: 20px;
+    background: #fff;
+    text-align: left;
+
+    .title {
+      padding: 10px 20px;
+      font-size: 18px;
+      font-weight: bold;
+      border-bottom: 1px solid #eee;
+
+    }
+
+    .row {
+      padding: 20px;
+    }
+    .row1{
+      padding:10px;
+      color: #333;
+      
+    }
+  }
+}
