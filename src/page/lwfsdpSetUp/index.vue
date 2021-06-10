@@ -59,25 +59,31 @@ export default {
         })
         return
       }
+      let msg = '送灯牌成功';
+      if (!this.dpActive) {
+          msg = '取消送灯牌成功';
+          this.dpNum='';
+      }
       let param = {
         token: localStorage.getItem('token'),
         grouping: this.grouping,
         sdp: this.dpNum,
       }
-      if (this.dpActive) {
-        let res = await this.api.setfst(param)
-        if (res.sdata == 1) {
-          this.$message({
-            message: '送灯牌成功',
-            type: 'success',
-          })
-        } else if (res.sdata == 0) {
-          this.$message({
-            message: res.msg,
-            type: 'error',
-          })
-        }
+      
+      let res = await this.api.setsdp(param)
+      if (res.sdata == 1) {
+        this.$message({
+          message: msg,
+          type: 'success',
+        })
+      } else if (res.sdata == 0) {
+        this.$message({
+          message: res.msg,
+          type: 'error',
+        })
       }
+      
+
     },
 
     //加粉丝团
@@ -89,25 +95,30 @@ export default {
         })
         return
       }
+      let msg = '加粉丝团成功';
+      if (!this.fstActive) {
+         this.fstNum='';
+        msg = '取消加粉丝团成功';
+      }
       let param = {
         token: localStorage.getItem('token'),
         grouping: this.grouping,
         fst: this.fstNum,
       }
-      if (this.fstActive) {
-        let res = await this.api.setfst(param)
-        if (res.sdata == 1) {
-          this.$message({
-            message: '加粉丝团成功',
-            type: 'success',
-          })
-        } else if (res.sdata == 0) {
-          this.$message({
-            message: res.msg,
-            type: 'error',
-          })
-        }
+      
+      let res = await this.api.setfst(param)
+      if (res.sdata == 1) {
+        this.$message({
+          message: msg,
+          type: 'success',
+        })
+      } else if (res.sdata == 0) {
+        this.$message({
+          message: res.msg,
+          type: 'error',
+        })
       }
+      
     },
     //送礼物
     async setslw() {
@@ -118,16 +129,20 @@ export default {
         })
         return
       }
+      let msg = "送礼物成功";
+      if(!this.lwActive){
+        this.lwNum='';
+        msg = "取消送礼物成功";
+      }
       let param = {
         token: localStorage.getItem('token'),
         grouping: this.grouping,
         slw: this.lwNum,
       }
-      if (this.lwActive) {
-        let res = await this.api.setslw(param)
+      let res = await this.api.setslw(param)
         if (res.sdata == 1) {
           this.$message({
-            message: '送礼物成功',
+            message: msg,
             type: 'success',
           })
         } else if (res.sdata == 0) {
@@ -136,7 +151,7 @@ export default {
             type: 'error',
           })
         }
-      }
+      
     },
 
     //获取分组下拉列表

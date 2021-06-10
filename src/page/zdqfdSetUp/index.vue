@@ -16,8 +16,11 @@
       </div>
       <div class='row'>
         <el-checkbox style="width:70px" v-model="fdActive" @change='fd'>设置福袋</el-checkbox>
-        <el-radio v-model="hb" label="1">抢红包</el-radio>
-        <el-radio v-model="zf" label="1">支付</el-radio>
+        <el-switch v-model="hb_active" style="margin-left:20px">抢红包</el-switch>抢红包
+        <el-switch v-model="zf_active" style="margin-left:20px">支付</el-switch>支付
+        <!-- <switch v-model="hb0">抢红包</switch>
+        <el-radio v-model="hb1" label="1">抢红包</el-radio>
+        <el-radio v-model="zf" label="1">支付</el-radio> -->
         <div class='row_item'>
           <span> 人数：</span>
           <el-input class="input82" v-model="rs"></el-input>
@@ -50,6 +53,8 @@ export default {
       grouping: '',
       zbqfdActive: false,
       fdActive: false,
+      hb_active:false,
+      zf_active:false,
       zbqfdNum: '',
       kq: '',
       hb: '',
@@ -73,14 +78,14 @@ export default {
         })
         return
       }
+      
       if (this.fdActive == true) {
-        this.kq = '开启'
         let param = {
           token: localStorage.getItem('token'),
           grouping: this.grouping,
-          kq: this.kq,
-          hb: this.hb,
-          zf: this.zf,
+          kq: this.fdActive==true?1:0,
+          hb: this.hb_active==true?1:0,
+          zf: this.zf_active==true?1:0,
           rs: this.rs,
           sj: this.sj,
           gl: this.gl,
@@ -98,16 +103,15 @@ export default {
           })
         }
       } else {
-        this.kq = '关闭'
         let param = {
           token: localStorage.getItem('token'),
           grouping: this.grouping,
-          kq: this.kq,
-          hb: this.hb,
-          zf: this.zf,
-          rs: this.rs,
-          sj: this.sj,
-          gl: this.gl,
+          kq: '',
+          hb: '',
+          zf: '',
+          rs: '',
+          sj: '',
+          gl: '',
         }
         let res = await this.api.fd(param)
         if (res.sdata == 1) {
@@ -133,39 +137,26 @@ export default {
         })
         return
       }
+      let msg = '直播抢福袋成功';
+      if (!this.zbqfdActive == true) {
+          msg = '取消直播抢福袋成功';
+      }
       let param = {
         token: localStorage.getItem('token'),
         grouping: this.grouping,
-        fd: this.zbqfdNum,
+        fd: this.zbqfdActive==true?1:0
       }
-      if (this.zbqfdActive == true) {
-        this.zbqfdNum = 1
-        let res = await this.api.setbzdfd(param)
-        if (res.sdata == 1) {
-          this.$message({
-            message: '直播抢福袋成功',
-            type: 'success',
-          })
-        } else if (res.sdata == 0) {
-          this.$message({
-            message: res.msg,
-            type: 'error',
-          })
-        }
-      } else {
-        this.zbqfdNum = 0
-        let res = await this.api.setbzdfd(param)
-        if (res.sdata == 1) {
-          this.$message({
-            message: '取消直播抢福袋成功',
-            type: 'success',
-          })
-        } else if (res.sdata == 0) {
-          this.$message({
-            message: res.msg,
-            type: 'error',
-          })
-        }
+      let res = await this.api.setbzdfd(param)
+      if (res.sdata == 1) {
+        this.$message({
+          message: msg,
+          type: 'success',
+        })
+      } else if (res.sdata == 0) {
+        this.$message({
+          message: res.msg,
+          type: 'error',
+        })
       }
     },
 
@@ -193,10 +184,12 @@ export default {
         // this.zbqfdActive = res.fd;
         this.fdActive=res.fd=='开启'?true:false;
         this.hb=res.hb;
-        this.zf=rse.zf;
+        this.zf=res.zf;
         this.rs=res.rs;
         this.sj=res.sj;
         this.gl=res.gl;
+        this.hb_active=res.hb==1?true:false;
+        this.zf_active=res.zf==1?true:false;
       }
     },
 

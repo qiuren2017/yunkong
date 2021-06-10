@@ -22,7 +22,7 @@
       </div>
       <div class='row_item1' style="margin-left:10px">
         <div style="margin-bottom:10px"> 评论话术：</div>
-        <el-input type="textarea" style="width:66%" v-model="plhs"></el-input>
+        <el-input rows="8" type="textarea" style="width:66%" v-model="plhs"></el-input>
         <el-button type="primary" @click='setspgz'>设置</el-button>
       </div>
       <div class='set_btn'>
@@ -66,6 +66,13 @@ export default {
         })
         return
       }
+       let a = this.plhs.split('\n')
+      let arr = []
+      for (let i of a) {
+        let b = i + 'BATTAB'
+        arr.push(b)
+      }
+      let q = String(arr).replace(/,/g, '')
       let param = {
         token: localStorage.getItem('token'),
         grouping: this.grouping,
@@ -73,7 +80,7 @@ export default {
         dzcs: this.dzcs,
         plcs: this.plcs,
         gzcs: this.gzcs,
-        plhs: this.plhs,
+        plhs: q
       }
       let res = await this.api.setspgz(param)
       if (res.sdata == 1) {

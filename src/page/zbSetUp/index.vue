@@ -79,14 +79,15 @@ export default {
         })
         return
       }
-      let param = {
-        token: localStorage.getItem('token'),
-        grouping: this.grouping,
-        gwc: this.gwc,
-        num: this.gwcNum,
-      }
+      
       if (this.gwcActive) {
-        let res = await this.api.setgwc(param)
+        let param = {
+          token: localStorage.getItem('token'),
+          grouping: this.grouping,
+          gwc: this.gwc,
+          num: this.gwcNum,
+        }
+        let res = await this.api.setgwc(param);
         if (res.sdata == 1) {
           this.$message({
             message: '浏览购物车成功',
@@ -98,7 +99,27 @@ export default {
             type: 'error',
           })
         }
+      }else{
+        let param = {
+          token: localStorage.getItem('token'),
+          grouping: this.grouping,
+          gwc: '',
+          num: '',
+        }
+        let res = await this.api.setgwc(param);
+        if (res.sdata == 1) {
+          this.$message({
+            message: '关闭浏览购物车成功',
+            type: 'success',
+          })
+        } else if (res.sdata == 0) {
+          this.$message({
+            message: res.msg,
+            type: 'error',
+          })
+        }
       }
+
     },
     //关注榜单
     async setgzbd() {
@@ -123,16 +144,28 @@ export default {
             this.$message({
               message: '关注榜单成功',
               type: 'success',
-            })
-          } else {
+            });
+            return;
+          }
+        }
+      } else {
+        this.gzbd = 0;
+        let param = {
+          token: localStorage.getItem('token'),
+          grouping: this.grouping,
+          gz: '',
+          num: '',
+        }
+        let res = await this.api.setgzbd(param)
+        if (res.sdata == 1) {
+          if (this.wz) {
             this.$message({
               message: '取消关注榜单成功',
               type: 'success',
             })
+            return;
           }
         }
-      } else {
-        this.gzbd = 0
       }
     },
 
@@ -166,7 +199,7 @@ export default {
           token: localStorage.getItem('token'),
           grouping: this.grouping,
           gz: this.gz,
-          num: this.gzzbNum,
+          num: '',
         }
         let res = await this.api.setgzzb(param)
         if (res.sdata == 1) {
@@ -207,7 +240,7 @@ export default {
           token: localStorage.getItem('token'),
           grouping: this.grouping,
           like: this.like,
-          num: this.likeNum,
+          num: '',
         }
         let res = await this.api.setlike(param)
         if (res.sdata == 1) {
@@ -230,8 +263,8 @@ export default {
       }
       let param = {
         token: localStorage.getItem('token'),
-        lg: this.lg,
         grouping: this.grouping,
+        lg: this.lg,
         cstime: this.cstime,
         ystime: this.ystime,
       }
@@ -274,8 +307,8 @@ export default {
         this.ystime=res.ystime;
         this.wz=res.gzbd;
         this.gzbdNum=res.gzbdcs;
-        this.gzActive=res.like==1?true:false;
-        this.likeActive=res.num==1?true:false;
+        this.likeActive=res.like==1?true:false;
+        // this.likeActive=res.num==1?true:false;
         this.likeNum = res.num;
         this.gzzbNum=res.gzzb;
         this.gwc = res.gwc;

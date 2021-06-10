@@ -50,7 +50,7 @@
         </div>
         <div class='row_item1'>
           <div class="item"> 评论转发话术：</div>
-          <el-input type="textarea" style='width:90%;margin:10px 0;' v-model="plhs"></el-input>
+          <el-input rows="8"  type="textarea" style='width:90%;margin:10px 0;' v-model="plhs"></el-input>
         </div>
         <div class='right_left_btn'>
           <el-button type="primary" @click='setyh'>养号设置</el-button>
@@ -92,7 +92,7 @@ export default {
     //设置养号时间
     // token=token&grouping=分组名&time=时间
     async settime() {
-       if (!this.grouping) {
+      if (!this.grouping) {
         this.$message({
           message: '请选择分组信息',
           type: 'error',
@@ -119,13 +119,20 @@ export default {
     },
     //设置养号概率
     async setyh() {
-       if (!this.grouping) {
+      if (!this.grouping) {
         this.$message({
           message: '请选择分组信息',
           type: 'error',
         })
         return
       }
+      let a = this.plhs.split('\n')
+      let arr = []
+      for (let i of a) {
+        let b = i + 'BATTAB'
+        arr.push(b)
+      }
+      let q = String(arr).replace(/,/g, '')
       let param = {
         token: localStorage.getItem('token'),
         grouping: this.grouping,
@@ -137,7 +144,7 @@ export default {
         zfplgl: this.zfplgl, //转发评论概率
         plhsgl: this.plhsgl, //评论概率
         plhfgl: this.plhfgl, //评论回复概率
-        plhs: this.plhs, //评论话术
+        plhs: q, //评论话术
       }
       let res = await this.api.setyh(param)
       if (res.sdata == 1) {
@@ -166,27 +173,26 @@ export default {
       }
     },
     //下拉选择查询
-    async selectChanged(value){
-      if(value){
+    async selectChanged(value) {
+      if (value) {
         let param = {
           token: localStorage.getItem('token'),
-          grouping: this.grouping
+          grouping: this.grouping,
         }
-        let res = await this.api.getgrouping(param);
-        this.time=res.time;
-        this.dzgl=res.dzgl;
-        this.plgl=res.plgl;
-        this.pldzgl=res.pldzgl;
-        this.zygl=res.zygl;
-        this.zydzgl=res.zydzgl;
-        this.zfplgl=res.plzfgl;
-        this.plhsgl=res.plhsgl;
-        this.plhfgl=res.plhfgl;
-        this.plhs=res.plhs;
-        console.log(res)
+        let res = await this.api.getgrouping(param)
+        this.time = res.time
+        this.dzgl = res.dzgl
+        this.plgl = res.plgl
+        this.pldzgl = res.pldzgl
+        this.zygl = res.zygl
+        this.zydzgl = res.zydzgl
+        this.zfplgl = res.plzfgl
+        this.plhsgl = res.plhsgl
+        this.plhfgl = res.plhfgl
+        this.plhs = res.plhs
+        // console.log(res)
       }
     },
-
   },
 }
 </script>

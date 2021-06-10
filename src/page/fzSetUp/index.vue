@@ -10,6 +10,7 @@
           <el-option v-for="item in fZList" :key="item.name" :label="item.name" :value="item.name">
           </el-option>
         </el-select>
+        <el-input class='inputfz' placeholder="请输入添加的分组名" v-model="fzName"></el-input>
         <el-button type="primary" @click='setgp'>保存分组信息</el-button>
         <el-button type="primary" @click='delgp'>删除分组</el-button>
         <el-button type="primary" @click='roused'>一键唤醒</el-button>
@@ -18,7 +19,8 @@
       <div class='row1'>
         在线：{{this.zx}} /任务中：{{this.rwsl }} /空闲：{{this.kx}}
       </div>
-      <el-table :header-cell-class-name="cellClass" height="75%" ref="multipleTable" :data="msgList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+      <!-- :header-cell-class-name="cellClass" -->
+      <el-table  height="75%" ref="multipleTable" :data="msgList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
         <el-table-column type="selection" align='center' width="55"></el-table-column>
         <el-table-column label="IMEI" align='center' show-overflow-tooltip>
           <template slot-scope="scope">{{ scope.row.uuid }}</template>
@@ -52,6 +54,7 @@ export default {
       rwsl: '',
       zx: '',
       kx: '',
+      fzName:''
     }
   },
   components: {
@@ -147,10 +150,13 @@ export default {
     async getMsg() {
       let res = await this.api.getMsg({ token: localStorage.getItem('token') })
       if (res.stada == 1) {
-        this.msgList = res.msg
-        this.rwsl = res.rwsl
-        this.zx = res.zx
-        this.kx = res.kx
+        this.msgList = res.msg.map((item)=>{
+          item.bz = Number(item.bz)
+          return item
+        })
+        this.rwsl=res.rwsl
+        this.zx=res.zx
+        this.kx=res.kx
       } else if (res.stada == 0) {
         this.$message({
           message: res.msg,
@@ -172,16 +178,16 @@ export default {
     },
     //保存分组
     async setgp() {
-      if (!this.grouping) {
+       if (!this.fzName) {
         this.$message({
-          message: '请选择分组信息',
+          message: '请输入分组名',
           type: 'error',
         })
         return
       }
       let param = {
         token: localStorage.getItem('token'),
-        grouping: this.grouping,
+        grouping: this.fzName,
         imei: this.changeItem,
       }
       let res = await this.api.setgp(param)
@@ -192,6 +198,7 @@ export default {
         })
       }
       this.getMsg()
+      this.getlist()
     },
     handleSelectionChange(val) {
       this.changeItem = ''

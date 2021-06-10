@@ -12,7 +12,9 @@
       <div :class="showColor('zdqfdSetUp')" @click='changeTab(8)'> <i class="el-icon-setting"></i>抢福袋自动</div>
       <div :class="showColor('lwfsdpSetUp')" @click='changeTab(9)'> <i class="el-icon-setting"></i>礼物粉丝团灯牌</div>
     </div>
+    <div class="buttom">技术联系QQ 261560777</div>
   </div>
+  
 </template>
 <script>
 export default {
@@ -34,9 +36,9 @@ export default {
       this.childrenShow = !this.childrenShow
     },
     showColor(value) {
-      console.log(value)
+      // console.log(value)
       if (this.active == value) {
-        console.log(this.active)
+        // console.log(this.active)
         this.show = true
         return 'active'
       } else {
@@ -119,5 +121,17 @@ export default {
       background: #9c9ea0;
     }
   }
+  .buttom{
+    color: #fff;
+    padding-left: 5px;
+    font-size: 14px;
+    // height: 50px;
+    // line-height: 50px;
+    position:fixed;
+    bottom:30px;
+    background: #545c64;
+    cursor: pointer;
+  }
 }
+
 </style>
