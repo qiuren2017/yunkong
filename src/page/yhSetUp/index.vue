@@ -190,7 +190,6 @@ export default {
         this.plhsgl = res.plhsgl
         this.plhfgl = res.plhfgl
         this.plhs = res.plhs
-        // console.log(res)
       }
     },
   },
