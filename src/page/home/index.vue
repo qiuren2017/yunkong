@@ -28,7 +28,6 @@ export default {
   methods: {
     keyDown(e) {
       //如果是回车则执行登录方法
-      // console.log(this.$route.name)
       if (this.$route.name=='home'&&e.keyCode == 13) {
         this.getLogin()
       }

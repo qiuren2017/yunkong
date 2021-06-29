@@ -36,9 +36,7 @@ export default {
       this.childrenShow = !this.childrenShow
     },
     showColor(value) {
-      // console.log(value)
       if (this.active == value) {
-        // console.log(this.active)
         this.show = true
         return 'active'
       } else {

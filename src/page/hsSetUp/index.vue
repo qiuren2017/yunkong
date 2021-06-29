@@ -190,7 +190,6 @@ export default {
         mode: this.mode,
         time: this.time,
       }
-      // console.log(param)
       let res = await this.api.setdlg(param)
       if (res.sdata == 1) {
         this.$message({
