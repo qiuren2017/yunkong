@@ -176,13 +176,13 @@ export default {
         })
         return
       }
-      if (!this.lg) {
-        this.$message({
-          message: '请选择话术',
-          type: 'error',
-        })
-        return
-      }
+      // if (!this.lg) {
+      //   this.$message({
+      //     message: '请选择话术',
+      //     type: 'error',
+      //   })
+      //   return
+      // }
       let param = {
         token: localStorage.getItem('token'),
         grouping: this.grouping,
