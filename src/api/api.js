@@ -11,9 +11,9 @@ import Vue from "vue";
 //   obj.indexOf("192") >= 0 ||
 //   obj.indexOf("localhost") >= 0
 // ) {
-  var base = "http://82.156.209.29:888/api"; //接口
-  Vue.prototype.base = "http://82.156.209.29:888/api"; //接口
-  Vue.prototype.link = "http://82.156.209.29:888/api"; //链接
+  var base = "http://42.193.105.228:888/api"; //接口
+  Vue.prototype.base = "http://42.193.105.228:888/api"; //接口
+  Vue.prototype.link = "http://42.193.105.228:888/api"; //链接
 // } else {
   
 // }

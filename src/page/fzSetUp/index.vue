@@ -158,10 +158,11 @@ export default {
         this.zx=res.zx
         this.kx=res.kx
       } else if (res.stada == 0) {
-        this.$message({
-          message: res.msg,
-          type: 'error',
-        })
+        console.error('获取挂机信息为空');
+        // this.$message({
+        //   message: res.msg,
+        //   type: 'error',
+        // })
       }
     },
     //获取分组下拉列表
@@ -170,10 +171,11 @@ export default {
       if (res.stada == 1) {
         this.fZList = res.msg
       } else if (res.stada == 0) {
-        this.$message({
-          message: res.msg,
-          type: 'error',
-        })
+        console.error('获取分组下拉列表为空');
+        // this.$message({
+        //   message: res.msg,
+        //   type: 'error',
+        // })
       }
     },
     //保存分组
